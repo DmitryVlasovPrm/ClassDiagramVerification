@@ -28,14 +28,20 @@ namespace ClassDiagrammVerification
                 // Сами элементы диаграммы
                 var elements = root.GetElementsByTagName("packagedElement");
                 ExtractElements.Extract(elements, ref Classes, ref Connections, ref Types);
-                Console.WriteLine("Все элементы считаны");
+                Console.WriteLine("Все элементы считаны\n--------------------");
+                
+                // Лексический анализ
+                Analysis.LexicalAnalysis(ref Classes, ref Connections, ref Types);
+                Console.WriteLine("Лексический анализ закончен\n--------------------");
+                
+                // Семантический анализ
+                Analysis.SemanticAnalysis(ref Classes, ref Connections, ref Types);
+                Console.WriteLine("Семантический анализ закончен\n--------------------");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.ReadKey();
         }
     }
 }
