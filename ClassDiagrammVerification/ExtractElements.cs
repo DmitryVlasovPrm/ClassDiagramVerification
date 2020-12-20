@@ -9,7 +9,9 @@ namespace ClassDiagrammVerification
 {
     public static class ExtractElements
     {
-        public static void Extract(XmlNodeList elements, ref List<Class> classes, ref List<Association> associations,
+        private static readonly string[] connectionTypes = { "association", "composite", "shared" };
+        
+        public static void Extract(XmlNodeList elements, ref List<Class> classes, ref List<Connection> connections,
             ref List<Entities.Type> types)
         {
             try
@@ -44,7 +46,7 @@ namespace ClassDiagrammVerification
                             
                             // Считываем операции
                             var operationElements = curElement.SelectNodes("ownedOperation");
-                            var operationElementsCount = attributeElements.Count;
+                            var operationElementsCount = operationElements.Count;
                             for (var k = 0; k < operationElementsCount; k++)
                             {
                                 var curOperation = operationElements[k];
@@ -92,12 +94,21 @@ namespace ClassDiagrammVerification
                                 role2 = "",
                                 mult2 = "";
                             bool navigalable1 = false, navigalable2 = false;
+                            ConnectionType connType1 = ConnectionType.association,
+                                connType2 = ConnectionType.association;
+                            
+                            // Смотрим каждый из концов связи
                             for (var j = 0; j < 2; j++)
                             {
                                 var curOwnedEnd = ownedEnds[j];
                                 var curOwnedEndId = curOwnedEnd.Attributes["xmi:id"].Value;
                                 var curRole = curOwnedEnd.Attributes["name"].Value;
                                 var curOwnedElementId = curOwnedEnd.Attributes["type"].Value;
+
+                                var curConnectionType = ConnectionType.association;
+                                if (curOwnedEnd.Attributes["aggregation"] != null)
+                                    curConnectionType = (ConnectionType) Array.IndexOf(connectionTypes,
+                                        curOwnedEnd.Attributes["aggregation"].Value);
 
                                 var curNavigation = false;
                                 if (navigableEndIdxs != null)
@@ -115,6 +126,7 @@ namespace ClassDiagrammVerification
                                     role1 = curRole;
                                     mult1 = curMult;
                                     navigalable1 = curNavigation;
+                                    connType1 = curConnectionType;
                                 }
                                 else
                                 {
@@ -122,12 +134,13 @@ namespace ClassDiagrammVerification
                                     role2 = curRole;
                                     mult2 = curMult;
                                     navigalable2 = curNavigation;
+                                    connType2 = curConnectionType;
                                 }
                             }
 
-                            associations.Add(new Association(elementId, elementName,
-                                ownedElementId1, role1, mult1, navigalable1,
-                                ownedElementId2, role2, mult2, navigalable2));
+                            connections.Add(new Connection(elementId, elementName,
+                                ownedElementId1, role1, mult1, navigalable1, connType1,
+                                ownedElementId2, role2, mult2, navigalable2, connType2));
                             break;
                         
                         case "uml:DataType":
