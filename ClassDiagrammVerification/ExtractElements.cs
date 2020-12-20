@@ -102,7 +102,9 @@ namespace ClassDiagrammVerification
                             {
                                 var curOwnedEnd = ownedEnds[j];
                                 var curOwnedEndId = curOwnedEnd.Attributes["xmi:id"].Value;
-                                var curRole = curOwnedEnd.Attributes["name"].Value;
+                                string curRole = "";
+                                if (curOwnedEnd.Attributes["name"] != null) 
+                                    curRole = curOwnedEnd.Attributes["name"].Value;
                                 var curOwnedElementId = curOwnedEnd.Attributes["type"].Value;
 
                                 var curConnectionType = ConnectionType.association;
@@ -151,7 +153,7 @@ namespace ClassDiagrammVerification
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error in ExtractElements: {ex.Message}");
             }
         }
     }

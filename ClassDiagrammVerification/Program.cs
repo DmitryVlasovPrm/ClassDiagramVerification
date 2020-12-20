@@ -20,7 +20,7 @@ namespace ClassDiagrammVerification
             try
             {
                 var doc = new XmlDocument();
-                doc.Load("/Users/dmitry/Desktop/Connections.xml");
+                doc.Load("/Users/dmitry/Desktop/example.xml");
                 var root = doc.DocumentElement;
                 
                 // Для отрисовки на png
@@ -32,15 +32,15 @@ namespace ClassDiagrammVerification
                 
                 // Лексический анализ
                 Analysis.LexicalAnalysis(ref Classes, ref Connections, ref Types);
-                Console.WriteLine("Лексический анализ закончен\n--------------------");
+                Console.WriteLine("Лексический анализ завершен\n--------------------");
                 
                 // Семантический анализ
                 Analysis.SemanticAnalysis(ref Classes, ref Connections, ref Types);
-                Console.WriteLine("Семантический анализ закончен\n--------------------");
+                Console.WriteLine("Семантический анализ завершен\n--------------------");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error in Program.cs: " + ex.Message);
             }
         }
     }
