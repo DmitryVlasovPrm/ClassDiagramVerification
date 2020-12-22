@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using System.Diagnostics;
 using System.Collections.Generic;
 using ClassDiagrammVerification.Entities;
 
@@ -19,6 +20,9 @@ namespace ClassDiagrammVerification
             
             try
             {
+                var sw = new Stopwatch();
+                sw.Start();
+                
                 var doc = new XmlDocument();
                 doc.Load("/Users/dmitry/Desktop/example.xml");
                 var root = doc.DocumentElement;
@@ -36,7 +40,10 @@ namespace ClassDiagrammVerification
                 
                 // Семантический анализ
                 Analysis.SemanticAnalysis(ref Classes, ref Connections, ref Types);
-                Console.WriteLine("Семантический анализ завершен\n--------------------");
+                Console.WriteLine("Синтаксический анализ завершен\n--------------------");
+
+                sw.Stop();
+                Console.WriteLine($"Время работы программы составило: {sw.ElapsedMilliseconds} мс");
             }
             catch (Exception ex)
             {
