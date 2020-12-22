@@ -3,6 +3,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
 using ClassDiagrammVerification.Entities;
+using System.Windows.Forms;
 
 namespace ClassDiagrammVerification
 {
@@ -11,7 +12,8 @@ namespace ClassDiagrammVerification
         public static List<Class> Classes;
         public static List<Connection> Connections;
         public static List<Entities.Type> Types;
-        
+
+        [STAThread]
         static void Main(string[] args)
         {
             Classes = new List<Class>();
@@ -20,12 +22,30 @@ namespace ClassDiagrammVerification
             
             try
             {
-                var sw = new Stopwatch();
-                sw.Start();
-                
-                var doc = new XmlDocument();
-                doc.Load("/Users/dmitry/Desktop/example.xml");
-                var root = doc.DocumentElement;
+                Stopwatch sw;
+                XmlElement root = null;
+                var filePath = string.Empty;
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+				{
+                    openFileDialog.Title = "Выбери файл с метаданными";
+                    openFileDialog.InitialDirectory = "C://";
+                    openFileDialog.Filter = "xml files|*.xml|xmi files|*.xmi";
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+					{
+                        filePath = openFileDialog.FileName;
+					}
+                    else
+					{
+                        return;
+					}
+
+                    sw = new Stopwatch();
+                    sw.Start();
+
+                    var doc = new XmlDocument();
+                    doc.Load(filePath);
+                    root = doc.DocumentElement;
+                }
                 
                 // Для отрисовки на png
                 var graphics = root.GetElementsByTagName("contents");
