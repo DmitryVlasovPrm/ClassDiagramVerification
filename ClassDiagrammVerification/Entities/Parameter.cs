@@ -4,13 +4,13 @@ namespace ClassDiagrammVerification.Entities
     {
         public string Id;
         public string Name;
-        public string TypeId;
+        public string DataTypeId;
 
-        public Parameter(string id, string name, string typeId)
+        public Parameter(string id, string name, string dataTypeId)
         {
             Id = id;
             Name = name;
-            TypeId = typeId;
+            DataTypeId = dataTypeId;
         }
     }
 }

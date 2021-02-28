@@ -8,15 +8,15 @@ namespace ClassDiagrammVerification.Entities
         public string Name;
         public List<Parameter> Parameters;
         public Visibility Visibility;
-        public string ReturnTypeId;
+        public string ReturnDataTypeId;
 
-        public Operation(string id, string name, List<Parameter> parameters, Visibility visibility, string returnTypeId)
+        public Operation(string id, string name, List<Parameter> parameters, Visibility visibility, string returnDataTypeId)
         {
             Id = id;
             Name = name;
             Parameters = new List<Parameter>(parameters);
             Visibility = visibility;
-            ReturnTypeId = returnTypeId;
+            ReturnDataTypeId = returnDataTypeId;
         }
     }
 }

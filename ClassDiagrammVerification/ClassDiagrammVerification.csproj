@@ -6,6 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Emgu.CV" Version="4.0.1.3373" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Reference Include="System.Windows.Forms" />
     </ItemGroup>
 

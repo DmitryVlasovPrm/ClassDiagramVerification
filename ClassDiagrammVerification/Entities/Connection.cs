@@ -1,5 +1,12 @@
 namespace ClassDiagrammVerification.Entities
 {
+    public enum ConnectionType
+    {
+        Association = 0,
+        CompositeAggregation = 1,
+        SharedAggregation = 2
+    }
+
     public class Connection
     {
         public string Id;
